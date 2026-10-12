@@ -1,5 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node.js
 node_modules/
 dist/
 build/
+
+# Logs & system files
 *.log
 .DS_Store
