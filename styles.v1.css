@@ -3,8 +3,8 @@
   --ink: #272923;
   --paper: #f6f5f1;
   --white: #fffefa;
-  --muted: #777970;
-  --accent: #747b63;
+  --muted: #62635c;
+  --accent: #596047;
   --line: rgba(39, 41, 35, 0.16);
   --sans: "Inter", Arial, sans-serif;
   --display: "Space Grotesk", "Arial", sans-serif;
@@ -46,7 +46,7 @@ a {
 }
 
 .announcement a {
-  color: var(--accent);
+  color: var(--white);
 }
 
 .announcement-divider {
@@ -71,9 +71,14 @@ a {
   width: fit-content;
 }
 
-.brand-logo {
+.brand picture {
   display: block;
   width: 77px;
+}
+
+.brand-logo {
+  display: block;
+  width: 100%;
   height: auto;
 }
 
@@ -104,7 +109,7 @@ a {
 .social-links a:hover,
 .footer-contact-link:hover,
 .footer-bottom a:hover {
-  opacity: 0.58;
+  opacity: 0.8;
 }
 
 .main-nav a {
@@ -167,7 +172,7 @@ a {
   align-items: center;
   gap: 10px;
   margin: 0;
-  color: #777970;
+  color: #62635c;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -200,7 +205,7 @@ a {
 .hero-description {
   max-width: 310px;
   margin: 15px 0 28px;
-  color: #696b63;
+  color: #55574f;
   font-size: 12px;
   line-height: 1.75;
 }
@@ -242,7 +247,7 @@ a {
   left: 8%;
   display: flex;
   justify-content: space-between;
-  color: #777970;
+  color: #62635c;
   font-size: 7px;
   font-weight: 600;
   letter-spacing: 0.11em;
@@ -264,15 +269,14 @@ a {
 }
 
 .hero-image {
-  background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1500&q=90");
-  background-position: center 34%;
-  background-size: cover;
-  transform: scale(1.015);
-  animation: image-arrive 1s ease-out both;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 34%;
 }
 
 .image-shade {
-  background: linear-gradient(180deg, rgba(13, 13, 12, 0.03) 40%, rgba(13, 13, 12, 0.55) 100%);
+  background: linear-gradient(180deg, rgba(13, 13, 12, 0.03) 40%, rgba(13, 13, 12, 0.62) 100%);
 }
 
 .image-label {
@@ -302,7 +306,9 @@ a {
   position: absolute;
   top: 50%;
   right: 17px;
-  color: rgba(255, 254, 250, 0.75);
+  padding: 8px 5px;
+  color: var(--white);
+  background: rgba(13, 13, 12, 0.72);
   font-size: 8px;
   letter-spacing: 0.15em;
   writing-mode: vertical-rl;
@@ -319,7 +325,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #777970;
+  color: #62635c;
   font-size: 8px;
   letter-spacing: 0.13em;
 }
@@ -351,7 +357,7 @@ a {
 }
 
 .eyebrow-dark {
-  color: #77766f;
+  color: #62635c;
 }
 
 .section-heading h2,
@@ -366,13 +372,13 @@ a {
 
 .section-heading h2 span,
 .preorder h2 span {
-  color: #878b7d;
+  color: #696d5e;
 }
 
 .section-intro {
   max-width: 350px;
   margin: 20px 0 0;
-  color: #77766f;
+  color: #62635c;
   font-size: 11px;
   line-height: 1.8;
 }
@@ -407,7 +413,7 @@ a {
 .product-image::after {
   position: absolute;
   inset: 35% 0 0;
-  background: linear-gradient(180deg, transparent, rgba(17, 17, 15, 0.35));
+  background: linear-gradient(180deg, transparent, rgba(17, 17, 15, 0.62));
   content: "";
   pointer-events: none;
 }
@@ -437,6 +443,7 @@ a {
   left: 8px;
   padding: 6px;
   border: 1px solid rgba(255, 254, 250, 0.45);
+  background: rgba(13, 13, 12, 0.72);
   font-size: 6px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -473,13 +480,13 @@ a {
 
 .product-info p {
   margin: 0;
-  color: #85847d;
+  color: #62635c;
   font-size: 10px;
 }
 
 .product-status {
   margin-top: 4px;
-  color: #85847d;
+  color: #62635c;
   font-size: 6px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -540,7 +547,7 @@ a {
 }
 
 .manifesto h2 span {
-  color: #777970;
+  color: #62635c;
 }
 
 .manifesto-link {
@@ -562,7 +569,7 @@ a {
 }
 
 .preorder h2 span {
-  color: #8b8a82;
+  color: #62635c;
 }
 
 .preorder-action {
@@ -572,7 +579,7 @@ a {
 
 .preorder-action p {
   margin: 0 0 20px;
-  color: #77766f;
+  color: #62635c;
   font-size: 12px;
   line-height: 1.8;
 }
@@ -584,7 +591,7 @@ a {
 }
 
 .button-dark:hover {
-  color: var(--ink);
+  color: var(--white);
   background: var(--accent);
 }
 
@@ -607,6 +614,10 @@ a {
 .brand-footer {
   width: 110px;
   align-self: center;
+}
+
+.brand-footer picture {
+  width: 100%;
 }
 
 .brand-footer .brand-logo {
@@ -634,7 +645,7 @@ a {
 
 .footer-label {
   margin: 0 0 2px;
-  color: rgba(255, 254, 250, 0.68);
+  color: rgba(255, 254, 250, 0.8);
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -670,7 +681,7 @@ a {
 }
 
 .mobile-money-label {
-  color: rgba(255, 254, 250, 0.56);
+  color: rgba(255, 254, 250, 0.8);
   font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -682,7 +693,7 @@ a {
   height: 16px;
   flex: 0 0 auto;
   fill: none;
-  stroke: rgba(255, 254, 250, 0.68);
+  stroke: rgba(255, 254, 250, 0.8);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.5;
@@ -708,7 +719,7 @@ a {
   place-items: center;
   border: 1px solid rgba(255, 254, 250, 0.25);
   border-radius: 50%;
-  color: rgba(255, 254, 250, 0.56);
+  color: rgba(255, 254, 250, 0.8);
 }
 
 .social-icon {
@@ -729,7 +740,7 @@ a {
 
 .social-note {
   margin: 0;
-  color: rgba(255, 254, 250, 0.48);
+  color: rgba(255, 254, 250, 0.8);
   font-size: 9px;
 }
 
@@ -738,7 +749,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgba(255, 254, 250, 0.48);
+  color: rgba(255, 254, 250, 0.8);
   gap: 8px;
   font-size: 7px;
   letter-spacing: 0.1em;
@@ -750,17 +761,6 @@ a {
 
 .footer-bottom span:nth-child(2) {
   display: none;
-}
-
-@keyframes image-arrive {
-  from {
-    opacity: 0.6;
-    transform: scale(1.07);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1.015);
-  }
 }
 
 @media (min-width: 641px) {
@@ -775,7 +775,7 @@ a {
     padding: 0 5%;
   }
 
-  .brand-logo {
+  .site-header .brand picture {
     width: 90px;
   }
 
@@ -819,7 +819,7 @@ a {
   }
 
   .hero-image {
-    background-position: center 37%;
+    object-position: center 37%;
   }
 
   .image-label {
