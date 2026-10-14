@@ -1,13 +1,16 @@
 :root {
   color-scheme: light;
-  --ink: #272923;
-  --paper: #f6f5f1;
+  --ink: #1A1A1A;
+  --paper: #F5F3EE;
   --white: #fffefa;
   --muted: #62635c;
-  --accent: #596047;
-  --line: rgba(39, 41, 35, 0.16);
+  --accent: #C8B6A6;
+  --accent-ink: #786453;
+  --taupe: #C8B6A6;
+  --champagne: #E9E1D7;
+  --line: rgba(26, 26, 26, 0.16);
   --sans: "Inter", Arial, sans-serif;
-  --display: "Space Grotesk", "Arial", sans-serif;
+  --display: "Cormorant Garamond", Georgia, serif;
 }
 
 * {
@@ -24,6 +27,29 @@ body {
   background: var(--paper);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-ready .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 600ms ease, transform 600ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.motion-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 a {
@@ -153,7 +179,7 @@ a {
   grid-template-rows: auto 390px;
   overflow: hidden;
   color: var(--ink);
-  background: #ebe9e1;
+  background: var(--paper);
 }
 
 .hero-copy {
@@ -193,13 +219,14 @@ a {
   font-weight: 500;
   letter-spacing: -0.075em;
   line-height: 0.9;
+  animation: hero-rise 600ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
 .hero h1 span,
 .section-heading h2 span,
 .manifesto h2 span,
 .preorder h2 span {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .hero-description {
@@ -208,6 +235,7 @@ a {
   color: #55574f;
   font-size: 12px;
   line-height: 1.75;
+  animation: hero-rise 600ms 100ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
 .button {
@@ -219,20 +247,26 @@ a {
   padding: 0 18px;
   font-size: 12px;
   font-weight: 700;
-  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    translate 220ms ease,
+    box-shadow 220ms ease;
 }
 
 .button:hover {
-  transform: translateY(-2px);
+  translate: 0 -2px;
 }
 
 .button-light {
   color: var(--ink);
-  background: #b3b89f;
+  background: var(--taupe);
+  animation: hero-rise 600ms 200ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
 .button-light:hover {
-  background: #c3c7b3;
+  background: #d8c9bc;
+  box-shadow: 0 8px 24px rgba(105, 82, 63, 0.2);
 }
 
 .button-arrow {
@@ -259,7 +293,7 @@ a {
   min-height: 390px;
   margin: 0;
   overflow: hidden;
-  background: #63584d;
+  background: var(--taupe);
 }
 
 .hero-image,
@@ -273,6 +307,12 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center 34%;
+  opacity: 0;
+  transition: opacity 650ms ease;
+}
+
+.hero-image.is-active {
+  opacity: 1;
 }
 
 .image-shade {
@@ -372,7 +412,7 @@ a {
 
 .section-heading h2 span,
 .preorder h2 span {
-  color: #696d5e;
+  color: var(--accent-ink);
 }
 
 .section-intro {
@@ -403,7 +443,7 @@ a {
   display: block;
   aspect-ratio: 0.72;
   overflow: hidden;
-  background: #ddd9d1;
+  background: var(--champagne);
 }
 
 .product-card-offset .product-image {
@@ -423,7 +463,7 @@ a {
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.3, 1), opacity 600ms ease;
 }
 
 .product-image:hover img {
@@ -502,7 +542,7 @@ a {
   overflow: hidden;
   padding: 65px 7%;
   color: var(--ink);
-  background: #e6e4dc;
+  background: var(--champagne);
 }
 
 .manifesto-mark {
@@ -569,7 +609,7 @@ a {
 }
 
 .preorder h2 span {
-  color: #62635c;
+  color: var(--accent-ink);
 }
 
 .preorder-action {
@@ -592,7 +632,8 @@ a {
 
 .button-dark:hover {
   color: var(--white);
-  background: var(--accent);
+  background: #9f8978;
+  box-shadow: 0 8px 24px rgba(105, 82, 63, 0.2);
 }
 
 .site-footer {

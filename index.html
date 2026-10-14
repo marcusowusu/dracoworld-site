@@ -13,14 +13,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com">
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     >
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       >
     </noscript>
@@ -34,12 +34,13 @@
     >
     <style>
       :root {
-        --ink: #272923;
-        --paper: #f6f5f1;
+        --ink: #1A1A1A;
+        --paper: #F5F3EE;
         --white: #fffefa;
-        --accent: #596047;
+        --accent: #C8B6A6;
+        --accent-ink: #786453;
         --sans: "Inter", Arial, sans-serif;
-        --display: "Space Grotesk", Arial, sans-serif;
+        --display: "Cormorant Garamond", Georgia, serif;
       }
       * { box-sizing: border-box; }
       body {
@@ -80,7 +81,7 @@
         grid-template-rows: auto 390px;
         overflow: hidden;
         color: var(--ink);
-        background: #ebe9e1;
+        background: var(--paper);
       }
       .hero-copy {
         position: relative;
@@ -113,7 +114,7 @@
         letter-spacing: -0.075em;
         line-height: 0.9;
       }
-      .hero h1 span { color: var(--accent); }
+      .hero h1 span { color: var(--accent-ink); }
       .hero-description {
         max-width: 310px;
         margin: 15px 0 28px;
@@ -131,7 +132,7 @@
         font-size: 12px;
         font-weight: 700;
       }
-      .button-light { color: var(--ink); background: #b3b89f; }
+      .button-light { color: var(--ink); background: var(--accent); }
       .button-arrow { font-size: 16px; font-weight: 400; }
       .hero-meta {
         position: absolute;
@@ -151,7 +152,7 @@
         min-height: 390px;
         margin: 0;
         overflow: hidden;
-        background: #63584d;
+        background: #C8B6A6;
       }
       .hero-image, .image-shade { position: absolute; inset: 0; }
       .hero-image {
@@ -159,7 +160,10 @@
         height: 100%;
         object-fit: cover;
         object-position: center 34%;
+        opacity: 0;
+        transition: opacity 650ms ease;
       }
+      .hero-image.is-active { opacity: 1; }
       .image-shade {
         background: linear-gradient(180deg, rgba(13, 13, 12, 0.03) 40%, rgba(13, 13, 12, 0.62) 100%);
       }
@@ -286,7 +290,7 @@
 
         <div class="hero-visual">
           <img
-            class="hero-image"
+            class="hero-image is-active"
             src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=960&q=75"
             srcset="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=480&q=75 480w, https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=75 800w, https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1280&q=75 1280w"
             sizes="(min-width: 641px) 44vw, 100vw"
@@ -296,9 +300,33 @@
             fetchpriority="high"
             decoding="async"
           >
+          <img
+            class="hero-image"
+            src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=960&q=75"
+            srcset="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=480&q=75 480w, https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=75 800w, https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1280&q=75 1280w"
+            sizes="(min-width: 641px) 44vw, 100vw"
+            alt="Streetwear look in a warm-toned editorial setting"
+            width="1280"
+            height="1600"
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+          >
+          <img
+            class="hero-image"
+            src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=960&q=75"
+            srcset="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=480&q=75 480w, https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=800&q=75 800w, https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1280&q=75 1280w"
+            sizes="(min-width: 641px) 44vw, 100vw"
+            alt="Minimal streetwear outfit from the DRACOWORLD collection"
+            width="1280"
+            height="1600"
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+          >
           <div class="image-shade"></div>
           <div class="image-label">
-            <span class="image-label-index">01 / 03</span>
+            <span class="image-label-index" aria-hidden="true">01 / 03</span>
             <span>THE NEXT<br>CHAPTER</span>
           </div>
           <span class="vertical-caption">DRACOWORLD — PREVIEW</span>
@@ -311,7 +339,7 @@
       </section>
 
       <section class="collection section-wrap" id="collection">
-        <div class="section-heading">
+        <div class="section-heading reveal">
           <div>
             <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> A first look</p>
             <h2>Made to make<br><span>an entrance.</span></h2>
@@ -322,7 +350,7 @@
         </div>
 
         <div class="product-grid">
-          <article class="product-card product-card-tall">
+          <article class="product-card product-card-tall reveal">
             <a
               class="product-image"
               href="https://wa.me/233506731027?text=Hi%20DRACOWORLD%2C%20I%27m%20interested%20in%20the%20first%20drop."
@@ -348,7 +376,7 @@
             </div>
           </article>
 
-          <article class="product-card product-card-offset">
+          <article class="product-card product-card-offset reveal">
             <a
               class="product-image"
               href="https://wa.me/233506731027?text=Hi%20DRACOWORLD%2C%20I%27m%20interested%20in%20the%20first%20drop."
@@ -374,7 +402,7 @@
             </div>
           </article>
 
-          <article class="product-card product-card-tall product-card-last">
+          <article class="product-card product-card-tall product-card-last reveal">
             <a
               class="product-image"
               href="https://wa.me/233506731027?text=Hi%20DRACOWORLD%2C%20I%27m%20interested%20in%20the%20first%20drop."
@@ -404,7 +432,7 @@
 
       <section class="manifesto" id="about">
         <div class="manifesto-mark" aria-hidden="true">DW<span>®</span></div>
-        <div class="manifesto-content">
+        <div class="manifesto-content reveal">
           <p class="eyebrow"><span class="eyebrow-line"></span> This is DRACOWORLD</p>
           <h2>Not here to fit in.<br><span>Here to be remembered.</span></h2>
         </div>
@@ -414,11 +442,11 @@
       </section>
 
       <section class="preorder section-wrap">
-        <div>
+        <div class="reveal">
           <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Your move</p>
           <h2>Be first.<br><span>Wear it your way.</span></h2>
         </div>
-        <div class="preorder-action">
+        <div class="preorder-action reveal">
           <p>Want to claim your place in the first drop? Reach out and we'll get you on the list.</p>
           <a class="button button-dark" href="https://wa.me/233506731027?text=Hi%20DRACOWORLD%2C%20I%27d%20like%20to%20pre-order%20from%20the%20first%20drop.">
             Pre-Order Now <span class="button-arrow" aria-hidden="true">↗</span>
