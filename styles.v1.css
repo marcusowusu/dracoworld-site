@@ -477,6 +477,15 @@ a {
   height: auto;
 }
 
+@media (max-width: 640px) {
+  .bag-showcase-visual {
+    width: calc(100% + 14%);
+    max-width: none;
+    margin-right: -7%;
+    margin-left: -7%;
+  }
+}
+
 .bag-showcase-copy {
   max-width: 360px;
   padding: 0 2px;
