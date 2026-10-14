@@ -59,9 +59,9 @@
         padding: 12px 5% 13px;
         background: var(--paper);
       }
-      .brand { display: inline-flex; align-items: center; width: fit-content; }
+      .brand { position: relative; z-index: 10; display: inline-flex; align-items: center; width: fit-content; }
       .brand picture { display: block; width: 77px; }
-      .brand-logo { display: block; width: 100%; height: auto; }
+      .navbar-logo { position: relative; z-index: 10; display: block; width: 100%; height: auto; }
       .main-nav {
         display: flex;
         justify-self: end;
@@ -250,17 +250,7 @@
     <header class="site-header">
       <a class="brand" href="#top" aria-label="DRACOWORLD home">
         <picture>
-          <source
-            type="image/avif"
-            srcset="/.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=160&fm=avif 160w, /.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=320&fm=avif 320w"
-            sizes="(min-width: 641px) 90px, 77px"
-          >
-          <source
-            type="image/webp"
-            srcset="/.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=160&fm=webp 160w, /.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=320&fm=webp 320w"
-            sizes="(min-width: 641px) 90px, 77px"
-          >
-          <img class="brand-logo" src="assets/dracoworld-logo.v1.png" alt="DRACOWORLD" width="409" height="335">
+          <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DRACOWORLD" width="409" height="335">
         </picture>
       </a>
 
@@ -344,9 +334,26 @@
             <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> A first look</p>
             <h2>Made to make<br><span>an entrance.</span></h2>
           </div>
-          <p class="section-intro">
-            The first DRACOWORLD pieces are on the way. Explore the preview and be first in line when the drop lands.
-          </p>
+        </div>
+        <div class="collection-divider" aria-hidden="true"></div>
+
+        <div class="bag-showcase">
+          <figure class="bag-showcase-visual reveal">
+            <img
+              src="assets/Gift%20bag.png.jpeg"
+              alt="White and black DRACOWORLD branded shopping gift bags displayed side by side"
+              width="1024"
+              height="1024"
+              loading="lazy"
+              decoding="async"
+            >
+          </figure>
+          <div class="bag-showcase-copy reveal">
+            <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> The first drop</p>
+            <p class="section-intro">
+              The first DRACOWORLD pieces are on the way. Explore the preview and be first in line when the drop lands.
+            </p>
+          </div>
         </div>
 
         <div class="product-grid">
@@ -459,16 +466,6 @@
       <div class="footer-top">
         <a class="brand brand-footer" href="#top" aria-label="DRACOWORLD home">
           <picture>
-            <source
-              type="image/avif"
-              srcset="/.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=160&fm=avif 160w, /.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=320&fm=avif 320w"
-              sizes="110px"
-            >
-            <source
-              type="image/webp"
-              srcset="/.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=160&fm=webp 160w, /.netlify/images?url=%2Fassets%2Fdracoworld-logo.v1.png&w=320&fm=webp 320w"
-              sizes="110px"
-            >
             <img class="brand-logo" src="assets/dracoworld-logo.v1.png" alt="DRACOWORLD" width="409" height="335" loading="lazy" decoding="async">
           </picture>
         </a>
@@ -487,19 +484,7 @@
             <span>@dracoworld12</span>
           </a>
           <div class="footer-mobile-money">
-            <picture>
-              <source
-                type="image/avif"
-                srcset="/.netlify/images?url=%2Fassets%2Fmtn-mobile-money-logo.v1.png&w=64&fm=avif 64w, /.netlify/images?url=%2Fassets%2Fmtn-mobile-money-logo.v1.png&w=128&fm=avif 128w"
-                sizes="34px"
-              >
-              <source
-                type="image/webp"
-                srcset="/.netlify/images?url=%2Fassets%2Fmtn-mobile-money-logo.v1.png&w=64&fm=webp 64w, /.netlify/images?url=%2Fassets%2Fmtn-mobile-money-logo.v1.png&w=128&fm=webp 128w"
-                sizes="34px"
-              >
-              <img class="mobile-money-logo" src="assets/mtn-mobile-money-logo.v1.png" alt="MTN Mobile Money logo" width="240" height="240" loading="lazy" decoding="async">
-            </picture>
+            <img class="mobile-money-logo" src="assets/mtn-mobile-money-logo.v1.png" alt="MTN Mobile Money logo" width="240" height="240" loading="lazy" decoding="async">
             <span class="mobile-money-details">
               <span class="mobile-money-label">Mobile Money (MTN)</span>
               <span>+233 257589244</span>
