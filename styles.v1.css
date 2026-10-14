@@ -478,11 +478,25 @@ a {
 }
 
 @media (max-width: 640px) {
+  .bag-showcase {
+    display: flex;
+    flex-direction: column;
+  }
+
   .bag-showcase-visual {
-    width: calc(100% + 14%);
-    max-width: none;
-    margin-right: -7%;
-    margin-left: -7%;
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .bag-showcase-visual img {
+    width: 90%;
+    max-width: 90%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .bag-showcase-copy {
+    order: -1;
   }
 }
 
