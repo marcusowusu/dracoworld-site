@@ -462,8 +462,10 @@ a {
 }
 
 .bag-showcase-visual {
+  width: 100%;
+  max-width: 480px;
   min-width: 0;
-  margin: 0;
+  margin: 0 auto;
   overflow: hidden;
   background: #e8e1d7;
 }
@@ -471,6 +473,7 @@ a {
 .bag-showcase-visual img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
 }
 
@@ -1005,9 +1008,13 @@ a {
   }
 
   .bag-showcase {
-    grid-template-columns: minmax(0, 1.35fr) minmax(190px, 0.65fr);
-    gap: clamp(24px, 5vw, 64px);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: clamp(20px, 4vw, 40px);
     margin-bottom: 64px;
+  }
+
+  .bag-showcase-visual {
+    max-width: 420px;
   }
 
   .bag-showcase-copy .section-intro {
@@ -1161,6 +1168,14 @@ a {
   .section-wrap {
     padding-right: 11.6%;
     padding-left: 11.6%;
+  }
+
+  .bag-showcase {
+    gap: clamp(32px, 5vw, 64px);
+  }
+
+  .bag-showcase-visual {
+    max-width: 620px;
   }
 
   .product-grid {
