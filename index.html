@@ -242,6 +242,22 @@
     </style>
     <link rel="preload" href="styles.v1.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="styles.v1.css"></noscript>
+    <style>
+      :root {
+        --watermark-size: clamp(120px, 25vw, 220px);
+      }
+      .announcement,
+      .site-header,
+      .hero,
+      .collection,
+      .manifesto,
+      .preorder {
+        background-image: url("assets/dracoworld-watermark.svg");
+        background-position: 0 0;
+        background-size: var(--watermark-size) auto;
+        background-repeat: repeat;
+      }
+    </style>
     <script src="script.js" defer></script>
   </head>
   <body>

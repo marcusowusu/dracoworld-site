@@ -881,23 +881,11 @@ a {
   display: none;
 }
 
-.announcement,
-.site-header,
-.hero,
-.collection,
-.manifesto,
-.preorder {
-  background-image: url("assets/dracoworld-watermark.svg");
-  background-position: 0 0;
-  background-size: clamp(155px, 20vw, 220px) auto;
-  background-repeat: repeat;
-}
-
 .site-footer::before {
   position: absolute;
   z-index: 0;
   inset: 0;
-  background: url("assets/dracoworld-watermark.svg") 0 0 / clamp(155px, 20vw, 220px) auto repeat;
+  background: url("assets/dracoworld-watermark.svg") 0 0 / var(--watermark-size) auto repeat;
   content: "";
   pointer-events: none;
   filter: invert(1);
