@@ -1139,6 +1139,24 @@ a {
   }
 }
 
+@media (min-width: 641px) and (max-width: 900px) {
+  .bag-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 36px);
+  }
+
+  .bag-showcase-visual {
+    width: min(100%, 37.5rem);
+    max-width: 37.5rem;
+  }
+
+  .bag-showcase-copy {
+    width: min(100%, 37.5rem);
+    max-width: none;
+    margin: 0 auto;
+  }
+}
+
 @media (min-width: 901px) {
   .site-header {
     padding-right: 6.25%;
