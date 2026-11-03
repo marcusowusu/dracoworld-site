@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f2ec">
+    <title>DracoWorld — Invitation Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.v1.css?v=20">
+    <script src="admin.js?v=1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="DRACOWORLD home">
+        <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DRACOWORLD" width="48" height="48">
+        <span class="brand-name">DRACOWORLD</span>
+      </a>
+    </header>
+    <main class="admin-page section-wrap">
+      <section class="admin-panel panel">
+        <p class="eyebrow eyebrow-dark">Administrator</p>
+        <h1>Invitation management</h1>
+        <p id="admin-status" class="auth-copy" aria-live="polite">Checking administrator access…</p>
+        <p id="admin-error" class="form-feedback" aria-live="polite"></p>
+        <div id="admin-controls" hidden>
+          <form id="invitation-form" class="account-form admin-invitation-form">
+            <label><span>Invited customer email</span><input type="email" name="email" autocomplete="email" maxlength="254" required></label>
+            <label><span>Approved membership tier</span><select name="membershipTierId" required><option value="">Loading tiers…</option></select></label>
+            <label><span>Invitation expires</span><input type="datetime-local" name="expiresAt" required></label>
+            <button type="submit" class="button button-light account-button-submit">Create and email invitation</button>
+          </form>
+          <p id="invitation-feedback" class="form-feedback" aria-live="polite"></p>
+          <div class="section-head">
+            <h2>Invitations</h2>
+            <button id="refresh-invitations" class="text-button" type="button">Refresh</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr><th scope="col">Email</th><th scope="col">Tier</th><th scope="col">Expires</th><th scope="col">Status</th><th scope="col">Action</th></tr>
+              </thead>
+              <tbody id="invitation-list"></tbody>
+            </table>
+          </div>
+        </div>
+        <a id="sign-in-link" class="button button-dark" href="/?account=1">Return to customer sign in</a>
+      </section>
+    </main>
+  </body>
+</html>

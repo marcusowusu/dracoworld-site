@@ -234,6 +234,7 @@
     </style>
     <link rel="stylesheet" href="styles.v1.css?v=15">
     <script src="script.js?v=4" defer></script>
+    <script src="account.js?v=1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -254,9 +255,9 @@
         <button class="header-tool search-toggle" type="button" aria-label="Search products" aria-expanded="false" aria-controls="site-search">
           <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.2 4.2"/></svg>
         </button>
-        <a class="header-tool" href="#contact" aria-label="Account and customer contact">
+        <button class="header-tool account-button" type="button" aria-label="Open account dashboard" aria-controls="auth-modal">
           <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.3"/><path d="M5.2 20v-1.6a6.8 6.8 0 0 1 13.6 0V20z"/></svg>
-        </a>
+        </button>
         <a class="header-tool cart-link" href="#cart" aria-label="Shopping cart, 0 items">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2l2.1 11.1a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 1.9-1.4L22 8H6"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>
           <span class="cart-count" aria-live="polite">0</span>
@@ -561,5 +562,296 @@
         <a href="#top">BACK TO TOP ↑</a>
       </div>
     </footer>
+    <div class="account-modal" id="auth-modal" aria-hidden="true">
+      <div class="account-panel is-login" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <button class="account-close" type="button" aria-label="Close account panel">×</button>
+
+        <div class="auth-shell" id="auth-shell">
+          <section class="auth-login" id="auth-login-view">
+            <div class="auth-header">
+              <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DracoWorld logo" width="48" height="48">
+              <span>DRACOWORLD</span>
+            </div>
+            <p class="eyebrow eyebrow-dark">Member access</p>
+            <h2 id="auth-title">Welcome back.</h2>
+            <p class="auth-copy">Your style. Your orders. Your exclusive access.</p>
+            <form id="login-form" class="account-form">
+              <label>
+                <span>Email address</span>
+                <input type="email" id="login-email" name="email" autocomplete="email" required>
+              </label>
+              <label>
+                <span>Password</span>
+                <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+              </label>
+              <button class="button button-light account-button-submit" type="submit">Sign in</button>
+            </form>
+            <p class="form-feedback" id="auth-feedback" aria-live="polite"></p>
+            <p class="auth-note"><button type="button" class="text-button auth-text-button" data-auth-view="reset-request-view">Forgot your password?</button></p>
+            <p class="auth-note">New to DracoWorld? <button type="button" class="text-button auth-text-button" data-auth-view="register-view">Create an account</button></p>
+            <form id="resend-verification-form" class="account-form" hidden>
+              <button type="submit" class="text-button auth-text-button">Resend verification email</button>
+            </form>
+          </section>
+
+          <section class="auth-login auth-secondary-view" id="register-view" hidden>
+            <div class="auth-header">
+              <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DracoWorld logo" width="48" height="48">
+              <span>DRACOWORLD</span>
+            </div>
+            <p class="eyebrow eyebrow-dark">Join DracoWorld</p>
+            <h2>Create your account.</h2>
+            <p class="auth-copy">Your account is shared across the DracoWorld customer dashboard.</p>
+            <form id="register-form" class="account-form">
+              <label><span>Full name</span><input type="text" name="fullName" autocomplete="name" minlength="2" maxlength="120" required></label>
+              <label><span>Email address</span><input type="email" name="email" autocomplete="email" maxlength="254" required></label>
+              <label><span>Password</span><input type="password" name="password" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+              <label><span>Confirm password</span><input type="password" name="passwordConfirmation" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+              <p class="auth-note">Use at least 12 characters. We’ll email a verification link before account access is enabled.</p>
+              <button class="button button-light account-button-submit" type="submit">Create account</button>
+            </form>
+            <p class="form-feedback" aria-live="polite"></p>
+            <p class="auth-note">Already a member? <button type="button" class="text-button auth-text-button" data-auth-view="auth-login-view">Sign in</button></p>
+          </section>
+
+          <section class="auth-login auth-secondary-view" id="reset-request-view" hidden>
+            <div class="auth-header">
+              <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DracoWorld logo" width="48" height="48">
+              <span>DRACOWORLD</span>
+            </div>
+            <p class="eyebrow eyebrow-dark">Account recovery</p>
+            <h2>Reset your password.</h2>
+            <p class="auth-copy">We’ll send a time-limited password reset link to your verified email address.</p>
+            <form id="password-reset-request-form" class="account-form">
+              <label><span>Email address</span><input type="email" name="email" autocomplete="email" required></label>
+              <button class="button button-light account-button-submit" type="submit">Send reset link</button>
+            </form>
+            <p class="form-feedback" aria-live="polite"></p>
+            <p class="auth-note"><button type="button" class="text-button auth-text-button" data-auth-view="auth-login-view">Back to sign in</button></p>
+          </section>
+
+          <section class="auth-login auth-secondary-view" id="password-reset-view" hidden>
+            <div class="auth-header">
+              <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DracoWorld logo" width="48" height="48">
+              <span>DRACOWORLD</span>
+            </div>
+            <p class="eyebrow eyebrow-dark">Account recovery</p>
+            <h2>Choose a new password.</h2>
+            <form id="password-reset-form" class="account-form">
+              <label><span>New password</span><input type="password" name="password" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+              <label><span>Confirm new password</span><input type="password" name="passwordConfirmation" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+              <button class="button button-light account-button-submit" type="submit">Update password</button>
+            </form>
+            <p class="form-feedback" aria-live="polite"></p>
+          </section>
+
+          <section class="auth-login auth-secondary-view" id="invite-view" hidden>
+            <div class="auth-header">
+              <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DracoWorld logo" width="48" height="48">
+              <span>DRACOWORLD</span>
+            </div>
+            <p class="eyebrow eyebrow-dark">You’re invited</p>
+            <h2>Join DracoWorld.</h2>
+            <p class="auth-copy" id="invite-details">Checking your invitation…</p>
+            <form id="invite-form" class="account-form" hidden>
+              <label><span>Full name</span><input type="text" name="fullName" autocomplete="name" minlength="2" maxlength="120" required></label>
+              <label><span>Invited email address</span><input type="email" name="email" readonly></label>
+              <label><span>Password</span><input type="password" name="password" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+              <label><span>Confirm password</span><input type="password" name="passwordConfirmation" autocomplete="new-password" minlength="12" maxlength="128" required></label>
+              <button class="button button-light account-button-submit" type="submit">Accept invitation</button>
+            </form>
+            <p class="form-feedback" aria-live="polite"></p>
+          </section>
+
+          <div class="dashboard-shell" id="dashboard-shell" hidden>
+            <aside class="dashboard-sidebar">
+              <div class="sidebar-brand">
+                <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="DracoWorld logo" width="48" height="48">
+                <span>DRACOWORLD</span>
+              </div>
+              <nav class="dashboard-nav" aria-label="Dashboard navigation">
+                <button class="nav-item is-active" type="button" data-target="overview" aria-current="page">Dashboard</button>
+                <button class="nav-item" type="button" data-target="orders">My Orders</button>
+                <button class="nav-item" type="button" data-target="preorders">Pre-Orders</button>
+                <button class="nav-item" type="button" data-target="wishlist">Wishlist</button>
+                <button class="nav-item" type="button" data-target="rewards">Rewards &amp; Membership</button>
+                <button class="nav-item" type="button" data-target="addresses">Addresses</button>
+                <button class="nav-item" type="button" data-target="settings">Profile Settings</button>
+                <button class="nav-item" type="button" data-target="support">Support</button>
+                <button class="nav-item nav-logout" type="button" id="logout-button">Logout</button>
+              </nav>
+            </aside>
+
+            <main class="dashboard-main">
+              <header class="dashboard-header panel">
+                <div class="dashboard-profile">
+                  <div class="dashboard-avatar" id="dashboard-avatar">DW</div>
+                  <div>
+                    <p class="eyebrow eyebrow-dark">WELCOME BACK</p>
+                    <h2 id="welcome-name">WELCOME BACK, CUSTOMER</h2>
+                  </div>
+                </div>
+                <div class="dashboard-status-wrap">
+                  <span class="member-badge" id="member-tier">Member</span>
+                  <span id="account-indicator">Verified account</span>
+                </div>
+              </header>
+
+              <section class="overview-grid" id="overview">
+                <article class="overview-card panel">
+                  <div class="card-icon">◌</div>
+                  <div>
+                    <p>Total Orders</p>
+                    <h3 id="total-orders">00</h3>
+                  </div>
+                </article>
+                <article class="overview-card panel">
+                  <div class="card-icon">◍</div>
+                  <div>
+                    <p>Active Pre-Orders</p>
+                    <h3 id="active-preorders">00</h3>
+                  </div>
+                </article>
+                <article class="overview-card panel">
+                  <div class="card-icon">♡</div>
+                  <div>
+                    <p>Wishlist Items</p>
+                    <h3 id="wishlist-count">00</h3>
+                  </div>
+                </article>
+                <article class="overview-card panel">
+                  <div class="card-icon">✦</div>
+                  <div>
+                    <p>Reward Points</p>
+                    <h3 id="reward-points">0</h3>
+                  </div>
+                </article>
+              </section>
+
+              <section class="dashboard-panels">
+                <article class="panel membership-card" id="membership-card">
+                  <div class="membership-topline">
+                    <span>DRACOWORLD</span>
+                    <span class="membership-tier" id="membership-tier-pill">Member</span>
+                  </div>
+                  <div class="membership-name-row">
+                    <div>
+                      <p>Member</p>
+                      <h3 id="membership-name">Customer</h3>
+                    </div>
+                    <span class="membership-number" id="membership-number"></span>
+                  </div>
+                  <div class="membership-details">
+                    <div>
+                      <p>Available points</p>
+                      <strong id="membership-points">0</strong>
+                    </div>
+                    <div>
+                      <p>Status</p>
+                      <strong id="membership-status">Active</strong>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="panel rewards-panel" id="rewards">
+                  <div class="section-head">
+                    <h3>Rewards &amp; Membership</h3>
+                    <a href="#collection">View benefits</a>
+                  </div>
+                  <ul class="benefit-list">
+                    <li><span>Account</span><strong id="benefit-tier">Member</strong></li>
+                    <li><span>Next tier progress</span><strong id="next-tier-progress">Contact DracoWorld</strong></li>
+                    <li><span>Membership benefits</span><strong>Contact DracoWorld</strong></li>
+                  </ul>
+                </article>
+              </section>
+
+              <section class="panel content-panel" id="orders">
+                <div class="section-head">
+                  <h3>My Orders</h3>
+                  <button type="button" class="text-button" data-target="collection">View Collection</button>
+                </div>
+                <div class="order-list" id="order-list"></div>
+              </section>
+
+              <section class="panel content-panel" id="preorders">
+                <div class="section-head">
+                  <h3>Pre-Order Tracking</h3>
+                  <span class="tracking-meta" id="preorder-meta">0 items in progress</span>
+                </div>
+                <div class="preorder-list" id="preorder-list"></div>
+              </section>
+
+              <section class="panel content-panel" id="wishlist">
+                <div class="section-head">
+                  <h3>Wishlist</h3>
+                  <a href="#collection">Shop all</a>
+                </div>
+                <div class="wishlist-grid" id="wishlist-grid"></div>
+              </section>
+
+              <section class="panel content-panel" id="addresses">
+                <div class="section-head">
+                  <h3>My Addresses</h3>
+                  <span class="tracking-meta">Private to your account</span>
+                </div>
+                <div class="address-list" id="address-list"></div>
+              </section>
+
+              <section class="panel content-panel" id="exclusive-drops">
+                <div class="section-head">
+                  <h3>Exclusive Drops</h3>
+                  <span class="tracking-meta">No release announced</span>
+                </div>
+                <div class="drop-card" id="drop-card"></div>
+              </section>
+
+              <section class="panel content-panel" id="settings">
+                <div class="section-head">
+                  <h3>Profile Settings</h3>
+                  <span class="tracking-meta">Your account details</span>
+                </div>
+                <form id="profile-form">
+                  <div class="settings-grid">
+                    <label><span>Full name</span><input id="profile-name" name="name" type="text" autocomplete="name" minlength="2" required></label>
+                    <label><span>Verified email address</span><input id="profile-email" name="email" type="email" autocomplete="email" readonly></label>
+                    <label><span>Phone (optional)</span><input id="profile-phone" name="phone" type="tel" autocomplete="tel"></label>
+                  </div>
+                  <div class="settings-actions">
+                    <button type="submit" class="button button-light">Save changes</button>
+                    <button type="button" id="change-password" class="button button-outline">Change password</button>
+                  </div>
+                  <p class="form-feedback" id="profile-feedback" aria-live="polite"></p>
+                </form>
+              </section>
+
+              <section class="panel content-panel" id="support">
+                <div class="section-head">
+                  <h3>Support</h3>
+                  <span class="tracking-meta">Fast response</span>
+                </div>
+                <div class="support-grid">
+                  <div class="support-card">
+                    <h4>WhatsApp</h4>
+                    <p>+233 50 673 1027</p>
+                    <a href="https://wa.me/233506731027?text=Hi%20DRACOWORLD%2C%20I%27d%20like%20to%20ask%20about%20my%20order." target="_blank" rel="noopener noreferrer">Chat now</a>
+                  </div>
+                  <div class="support-card">
+                    <h4>Order support</h4>
+                    <p>Track your order or ask about shipping.</p>
+                    <a href="mailto:dracoworldorg12@gmail.com">Email us</a>
+                  </div>
+                  <div class="support-card">
+                    <h4>FAQ</h4>
+                    <p>Shipping times, exchanges and pre-order timelines.</p>
+                    <a href="#contact">Read help centre</a>
+                  </div>
+                </div>
+              </section>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
