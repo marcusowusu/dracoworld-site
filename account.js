@@ -1,3 +1,14 @@
+const deferredFontStylesheet = document.querySelector("[data-deferred-fonts]");
+if (deferredFontStylesheet) {
+  if (deferredFontStylesheet.sheet) {
+    deferredFontStylesheet.media = "all";
+  } else {
+    deferredFontStylesheet.addEventListener("load", () => {
+      deferredFontStylesheet.media = "all";
+    }, { once: true });
+  }
+}
+
 const accountButton = document.querySelector(".account-button");
 const authModal = document.querySelector("#auth-modal");
 const accountPanel = document.querySelector(".account-panel");

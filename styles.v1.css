@@ -898,6 +898,7 @@ img {
 
 .lookbook-frame {
   position: relative;
+  align-self: start;
   min-width: 0;
   min-height: 0;
   margin: 0;
@@ -908,33 +909,22 @@ img {
 .lookbook-frame img {
   display: block;
   width: 100%;
-  height: 100%;
-  max-height: 580px;
+  height: auto;
   object-fit: contain;
 }
 
 .lookbook-model {
   grid-column: 1 / -1;
   grid-row: auto;
-  aspect-ratio: 4 / 5;
-}
-
-.lookbook-model img {
-  object-fit: cover;
-  object-position: center 24%;
-}
-
-.lookbook-product {
-  aspect-ratio: 1 / 1;
 }
 
 .lookbook-bag {
   grid-column: 1 / -1;
-  aspect-ratio: 1.4 / 1;
 }
 
 .lookbook-bag img {
-  padding: 10px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .lookbook-frame figcaption {
@@ -1501,25 +1491,8 @@ img {
     gap: 10px;
   }
 
-  .lookbook-model {
-    grid-row: span 2;
-  }
-
-  .lookbook-model img {
-    min-height: 100%;
-    aspect-ratio: 0.72;
-  }
-
-  .lookbook-product img {
-    aspect-ratio: 1 / 1;
-  }
-
   .lookbook-bag {
     grid-column: 1 / -1;
-  }
-
-  .lookbook-bag img {
-    aspect-ratio: 1.4 / 1;
   }
 
   .newsletter {
@@ -1606,197 +1579,6 @@ img {
     flex-direction: column;
     justify-content: center;
     padding: 13px 0;
-  }
-}
-
-@media (min-width: 761px) {
-  .site-header {
-    min-height: 86px;
-    grid-template-columns: auto 1fr auto;
-    padding: 0 5%;
-  }
-
-  .navbar-logo {
-    width: 40px;
-    height: 40px;
-  }
-
-  .main-nav {
-    display: flex;
-    grid-column: 2;
-    justify-self: center;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(20px, 3.2vw, 45px);
-  }
-
-  .main-nav.is-open {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .main-nav.is-open a {
-    padding: 10px 0;
-    border-bottom: 0;
-  }
-
-  .main-nav.is-open a::after {
-    display: block;
-  }
-
-  .header-tools {
-    grid-column: 3;
-    gap: clamp(10px, 1.5vw, 20px);
-  }
-
-  .header-tools > a:not(.cart-link) {
-    display: grid;
-  }
-
-  .menu-toggle {
-    display: none;
-  }
-
-  .hero {
-    min-height: 510px;
-    height: min(660px, calc(100svh - 86px));
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    grid-template-rows: minmax(0, 1fr);
-  }
-
-  .hero-copy {
-    grid-row: 1;
-    padding: 5% 8% 7% 12%;
-  }
-
-  .hero h1 {
-    font-size: clamp(68px, 7vw, 88px);
-  }
-
-  .hero-meta {
-    position: absolute;
-    right: 9%;
-    bottom: 28px;
-    left: 12%;
-    margin-top: 0;
-  }
-
-  .hero-visual {
-    grid-row: 1;
-    aspect-ratio: auto;
-  }
-
-  .hero-image {
-    object-position: center 30%;
-  }
-
-  .benefits {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding: 20px 4%;
-  }
-
-  .benefit {
-    min-height: 72px;
-  }
-
-  .benefit:nth-child(3) {
-    border-left: 1px solid rgba(23, 23, 23, 0.07);
-  }
-
-  .benefit:nth-child(n + 3) {
-    border-top: 0;
-  }
-
-  .section-wrap {
-    padding-right: 6%;
-    padding-left: 6%;
-  }
-
-  .brand-story {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: clamp(38px, 6vw, 72px);
-    padding-top: 50px;
-    padding-bottom: 50px;
-  }
-
-  .brand-story-image {
-    aspect-ratio: 4 / 5;
-  }
-
-  .categories,
-  .collection {
-    padding-top: 36px;
-    padding-bottom: 42px;
-  }
-
-  .category-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
-  }
-
-  .product-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 22px 18px;
-  }
-
-  .cart-content {
-    grid-template-columns: minmax(0, 1.5fr) minmax(230px, 0.75fr);
-    gap: 32px;
-  }
-
-  .lookbook-gallery {
-    grid-template-columns: 1.1fr 0.9fr 0.9fr;
-    grid-template-rows: repeat(2, minmax(180px, 1fr));
-    gap: 14px;
-  }
-
-  .lookbook-model {
-    grid-column: auto;
-    grid-row: span 2;
-    aspect-ratio: auto;
-  }
-
-  .lookbook-product {
-    aspect-ratio: auto;
-  }
-
-  .lookbook-bag {
-    grid-column: 2 / -1;
-    aspect-ratio: auto;
-  }
-
-  .newsletter {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
-
-  .footer-top {
-    grid-template-columns: 0.8fr 1.2fr 0.8fr 0.9fr;
-    gap: 28px;
-  }
-
-  .brand-footer {
-    width: 86px;
-  }
-
-  .footer-contact,
-  .footer-social,
-  .footer-nav {
-    grid-column: auto;
-    grid-row: auto;
-    justify-self: start;
-  }
-}
-
-
-@media (min-width: 1024px) {
-  .product-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 22px;
   }
 }
 
@@ -2639,7 +2421,6 @@ img {
   font-size: 15px;
 }
 
-
 @media (min-width: 761px) {
   .site-header {
     min-height: 86px;
@@ -2782,23 +2563,16 @@ img {
 
   .lookbook-gallery {
     grid-template-columns: 1.1fr 0.9fr 0.9fr;
-    grid-template-rows: repeat(2, minmax(180px, 1fr));
     gap: 14px;
   }
 
   .lookbook-model {
     grid-column: auto;
     grid-row: span 2;
-    aspect-ratio: auto;
-  }
-
-  .lookbook-product {
-    aspect-ratio: auto;
   }
 
   .lookbook-bag {
     grid-column: 2 / -1;
-    aspect-ratio: auto;
   }
 
   .newsletter {
@@ -2823,7 +2597,12 @@ img {
   }
 }
 
-
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+  }
+}
 
 @media (min-width: 761px) {
   .dashboard-shell {
@@ -3009,7 +2788,6 @@ img {
     flex-direction: column;
   }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   *,
