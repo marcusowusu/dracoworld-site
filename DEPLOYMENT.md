@@ -6,13 +6,13 @@ No services, databases, email providers, or deployments are provisioned by this 
 
 ## 1. Provision PostgreSQL
 
-Create a managed PostgreSQL database with TLS enabled and network access restricted to the Render service where supported. Use a dedicated database and least-privilege database user. Configure backups and recovery before storing customer data.
+Create a PostgreSQL database with TLS enabled and network access restricted to the Render service where supported. Use a dedicated database and least-privilege database user. Configure backups and recovery before storing customer data. Render Free PostgreSQL databases expire after 30 days and do not provide backups; do not use one for persistent customer data. Data in an expired or otherwise lost database may not be recoverable.
 
-Copy the database's connection string into Render's `DATABASE_URL` secret. The Render configuration sets `DATABASE_SSL=true`, which requires verified TLS. Do not put a real connection string in this repository or Cloudflare Pages.
+Set the database's connection string in Render's `DATABASE_URL` secret. Use the external database URL when connecting manually from outside Render. The service configuration sets `DATABASE_SSL=true`; the application uses verified TLS and rejects untrusted certificates. Do not put a real connection string in this repository or Cloudflare Pages.
 
 ## 2. Configure the Render API service
 
-Connect this repository to Render and use the included `render.yaml` Blueprint configuration. It runs `npm ci`, executes `npm run migrate` as the pre-deploy command, starts the service with `npm start`, and checks `/api/health`. The `starter` plan is specified because Render pre-deploy commands require a paid instance.
+Connect this repository to Render and use the included `render.yaml` Blueprint configuration. The Free web service runs `npm ci`, starts with `npm start`, and checks `/api/health`. It does not run migrations during deployment. Render Free web services can spin down after 15 minutes without inbound traffic; the next request can incur a cold-start delay. Free instances have limited resources and no persistent local disk, so local files must not be treated as durable storage.
 
 Set these Render environment variables before the first deployment:
 
@@ -21,12 +21,8 @@ Set these Render environment variables before the first deployment:
 | `DATABASE_URL` | Managed PostgreSQL connection string; keep secret. |
 | `PUBLIC_ORIGIN` | Exact canonical storefront origin, e.g. `https://www.example.com`, with no path or trailing slash. |
 | `RATE_LIMIT_SECRET` | At least 32 cryptographically random bytes; keep secret and consistent across API instances. |
-| `SMTP_HOST` | SMTP server hostname. |
-| `SMTP_PORT` | SMTP port (typically `587` for STARTTLS or `465` for implicit TLS). |
-| `SMTP_SECURE` | `true` for implicit TLS, otherwise `false` for STARTTLS. |
-| `SMTP_USER` | SMTP authentication username. |
-| `SMTP_PASS` | SMTP authentication password; keep secret. |
-| `SMTP_FROM` | Verified sender address/name. |
+| `RESEND_API_KEY` | Resend API key; keep secret and set as a Render secret. |
+| `EMAIL_FROM` | Sender address/name on a domain verified with Resend. |
 
 `NODE_ENV=production`, `TRUST_PROXY=false`, `DATABASE_SSL=true`, `DB_POOL_MAX=10`, and `SESSION_TTL_HOURS=168` are set in `render.yaml`. `PORT` is assigned by Render and must not be overridden. `TRUST_PROXY` deliberately remains disabled: the service's complete trusted proxy chain has not been verified. Do not enable it to infer client addresses or affect rate limits without first verifying Render's actual ingress and forwarded-header behavior.
 
@@ -36,13 +32,13 @@ Set these Render environment variables before the first deployment:
 node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
 ```
 
-Keep the value in Render's environment settings, not in source control. Configure SMTP credentials through Render's secret environment settings. Without working SMTP, verification, invitation, and password-reset email cannot be delivered; successful provider configuration is not implied by this setup.
+Keep the value in Render's environment settings, not in source control. Configure the Resend API key as a Render secret. In Resend, add and verify the sender domain and complete its required DNS authentication records before using an address from that domain in `EMAIL_FROM`. The application sends email through Resend's HTTPS API; without valid configuration and a verified sender, verification, invitation, and password-reset emails cannot be delivered. Successful provider configuration is not implied by this setup.
 
-## 3. Run database migrations
+## 3. Safely run database migrations
 
-The Render pre-deploy command runs the existing migration runner, `npm run migrate`, before starting a new service version. The runner wraps migration tracking and SQL in a transaction and takes a PostgreSQL transaction-scoped advisory lock so overlapping runs serialize safely. It is safe to rerun: applied migrations are recorded in `schema_migrations`, and the transaction releases its lock on completion or failure.
+Review and back up the target database before applying a migration. Run `npm run migrate` manually from a trusted environment only after securely providing the database's **external** `DATABASE_URL` and `DATABASE_SSL=true` to that process. The application requires verified TLS for this connection. Do not paste credentials into command-line arguments, shell history, source files, or logs. Confirm the URL points to the intended database before running the command. Do not configure this as an automatic pre-deploy step on the Free service.
 
-For a manual initial run, use the same command with the production `DATABASE_URL` and `DATABASE_SSL=true` environment securely supplied to the operator's environment. Never paste credentials into shell history or commit them. Review migration output and verify the service health check after deployment. Do not run ad hoc SQL to mark unapplied migrations as complete.
+The runner wraps migration tracking and SQL in a transaction and takes a PostgreSQL transaction-scoped advisory lock so overlapping runs serialize safely. Applied migrations are recorded in `schema_migrations`; the transaction releases its lock on completion or failure. Review the migration output and verify the service health check after deployment. Do not run ad hoc SQL to mark unapplied migrations as complete.
 
 ## 4. Configure Cloudflare Pages
 
@@ -64,9 +60,9 @@ Before accepting customer registrations:
 
 1. Confirm the Render deployment and `/api/health` health check succeed against the provisioned PostgreSQL database.
 2. Confirm `DATABASE_SSL=true`, the production `PUBLIC_ORIGIN`, and the Pages `API_ORIGIN` match the real provider URLs.
-3. Configure and verify SMTP delivery to the real storefront origin.
+3. Configure Resend with a verified sender domain and verify email delivery to the real storefront origin.
 4. Test registration, verification email, login/logout, CSRF-protected requests, password reset, and rate limiting on the production hostname.
 5. Confirm cookies are `Secure`, `HttpOnly` where applicable, and use the `__Host-` prefix in production.
 6. Create an administrator only by first registering and verifying an account, then having a trusted operator grant its role as documented in [AUTHENTICATION_SETUP.md](./AUTHENTICATION_SETUP.md). There is no default administrator.
 
-The application does not configure a PostgreSQL provider, SMTP/email delivery, custom domain, or administrator account. Those remain explicit operator setup tasks.
+The application does not configure a PostgreSQL provider, Resend/email delivery, custom domain, or administrator account. Those remain explicit operator setup tasks. A Free PostgreSQL database's expiration and lack of backups create data-loss and recovery risks; use a database with durable storage and a tested backup/recovery plan before retaining customer data.

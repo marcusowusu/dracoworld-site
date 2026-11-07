@@ -13,7 +13,7 @@ test("customer sessions isolate dashboard data and protect privileged fields", {
   process.env.NODE_ENV = "test";
   process.env.RATE_LIMIT_SECRET = randomBytes(32).toString("base64url");
   process.env.PUBLIC_ORIGIN = "http://127.0.0.1";
-  for (const setting of ["SMTP_HOST", "SMTP_PORT", "SMTP_SECURE", "SMTP_USER", "SMTP_PASS", "SMTP_FROM"]) {
+  for (const setting of ["RESEND_API_KEY", "EMAIL_FROM"]) {
     delete process.env[setting];
   }
 

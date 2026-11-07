@@ -2,9 +2,8 @@ services:
   - type: web
     name: dracoworld-api
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm ci
-    preDeployCommand: npm run migrate
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -24,15 +23,7 @@ services:
         sync: false
       - key: RATE_LIMIT_SECRET
         sync: false
-      - key: SMTP_HOST
+      - key: RESEND_API_KEY
         sync: false
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_SECURE
-        value: "false"
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASS
-        sync: false
-      - key: SMTP_FROM
+      - key: EMAIL_FROM
         sync: false

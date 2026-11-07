@@ -1,4 +1,4 @@
-import { createHmac } from "node:crypto";
+import { createHmac, randomUUID } from "node:crypto";
 import { pool } from "./db.js";
 import { digest, equalHashes, readCsrfCookie } from "./security.js";
 
@@ -125,6 +125,17 @@ export function rateLimit({ scope, max, windowMs, identity = (request) => reques
   });
 }
 
+function safeErrorType(error) {
+  if (error instanceof TypeError) return "TypeError";
+  if (error instanceof RangeError) return "RangeError";
+  if (error instanceof SyntaxError) return "SyntaxError";
+  if (error instanceof ReferenceError) return "ReferenceError";
+  if (error instanceof URIError) return "URIError";
+  if (error instanceof EvalError) return "EvalError";
+  if (error instanceof AggregateError) return "AggregateError";
+  return error instanceof Error ? "Error" : "UnknownError";
+}
+
 export function handleError(error, request, response, _next) {
   if (response.headersSent) {
     return;
@@ -191,7 +202,16 @@ export function handleError(error, request, response, _next) {
     return;
   }
 
-  console.error("Request failed:", request.method, request.path, error.message);
+  const methods = new Set(["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]);
+  const method = methods.has(request.method) ? request.method : "UNKNOWN";
+  const requestId = randomUUID();
+  response.set("X-Request-Id", requestId);
+  console.error("Request failed:", {
+    requestId,
+    method,
+    status: 500,
+    type: safeErrorType(error),
+  });
   response.status(500).json({
     error: "internal_error",
     message: "The request could not be completed. Please try again later.",

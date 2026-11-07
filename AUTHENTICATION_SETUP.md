@@ -4,16 +4,16 @@ The storefront remains plain HTML, CSS, and browser JavaScript. The Node.js/Expr
 
 ## Local setup
 
-Requirements: Node.js 20+, PostgreSQL 13+, and an SMTP account for verification, reset, and invitation email.
+Requirements: Node.js 20+, PostgreSQL 13+, and a Resend account with a verified sender domain for verification, reset, and invitation email.
 
-1. Copy `.env.example` to `.env` and set `DATABASE_URL`, `PUBLIC_ORIGIN`, and the SMTP settings. Never commit `.env`.
+1. Copy `.env.example` to `.env` and set `DATABASE_URL`, `PUBLIC_ORIGIN`, `RESEND_API_KEY`, and `EMAIL_FROM`. Use a Resend API key and sender address from a domain verified with Resend. Never commit `.env`.
 2. Install dependencies with `npm install`.
 3. Apply the database migration with `npm run migrate`.
 4. Start the website and API with `npm start`, then open the configured origin.
 
-The API will return `503` for email-dependent actions until SMTP is configured. The database migration is not run automatically during server startup.
+The API will return `503` for email-dependent actions until the Resend API key and sender are configured. Email delivery uses Resend's HTTPS API and does not require an SMTP transport. The database migration is not run automatically during server startup.
 
-The integration test requires a separate, disposable PostgreSQL database whose name contains `test`. Apply the migration with `DATABASE_URL` set to that database, then set `TEST_DATABASE_URL` to the same URL and run `npm test`. The test creates and removes its own fixture records.
+The email tests mock the HTTPS request and never use a real API key or send email. The authentication integration test requires a separate, disposable PostgreSQL database whose name contains `test`; do not point it at a development or production database. Apply the migration manually to that database with its `DATABASE_URL` and `DATABASE_SSL=true` securely set, then set `TEST_DATABASE_URL` to the same database URL and run `npm test`. The integration test creates and removes its own fixture records, so use a disposable database with no data to preserve.
 
 ## Environment
 
@@ -26,7 +26,8 @@ The integration test requires a separate, disposable PostgreSQL database whose n
 | `PORT` | Express listening port. |
 | `TRUST_PROXY` | Set to `true` only when deployed behind a trusted single-hop reverse proxy. |
 | `SESSION_TTL_HOURS` | Session lifetime, bounded by the server to 1–720 hours. |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | SMTP transport and sender identity. |
+| `RESEND_API_KEY` | Resend HTTPS API key; keep secret. |
+| `EMAIL_FROM` | Sender address/name using a domain verified with Resend. |
 | `DATABASE_SSL` | Set to `true` when the PostgreSQL provider requires verified TLS. |
 
 For the approved Cloudflare Pages + Render architecture, follow [DEPLOYMENT.md](./DEPLOYMENT.md). The Pages Function proxies `/api/*` on the storefront origin to the fixed server-side Render origin; do not point browser requests directly at a separate cross-origin API.
@@ -58,14 +59,14 @@ Confirm exactly one row was updated. Administrator invitation tools are at `/adm
 - Public registration creates an unverified account on the `standard` tier and emails a 24-hour, one-use verification link.
 - Invitation links are random, stored only as hashes, expire at the administrator-selected time (maximum 90 days), and can only be accepted once.
 - Password reset links are random, hashed in the database, expire after one hour, and revoke existing sessions when used.
-- SMTP delivery errors are surfaced to the requesting user and logged without logging tokens or credentials.
+- Resend delivery errors are surfaced to the requesting user and logged without logging tokens, API keys, or provider response bodies.
 
 The browser uses `POST /api/auth/register`, `POST /api/auth/login`, and `POST /api/auth/logout`; verification is completed by the emailed `/api/auth/verify?token=...` link. Password recovery uses `POST /api/auth/password-reset/request` and `POST /api/auth/password-reset/confirm`. Invitation acceptance uses `GET /api/auth/invitations/:token` and `POST /api/auth/invitations/:token/accept`. The signed-in dashboard reads `/api/me/dashboard`; administrator invitation management is under `/api/admin/invitations`.
 
 ## Deployment checks
 
 - Configure PostgreSQL backups, TLS, restricted network access, and a least-privilege database user before serving customers.
-- Configure SMTP sender authentication and verify delivery to the public site origin before enabling registration.
+- Configure Resend sender-domain authentication and verify delivery to the public site origin before enabling registration.
 - Use HTTPS in production; the session cookie is `HttpOnly`, `Secure`, and `SameSite=Lax`. The CSRF cookie is `SameSite=Strict`, and state-changing requests also require a matching origin and CSRF header.
 - The database-backed auth rate limiter is shared across service instances.
 - Customer dashboard queries are keyed by the authenticated customer ID. Orders and pre-orders have storage models but are not yet connected to a checkout/order-management provider; they remain empty until trusted order integration writes them. The current dashboard displays only records returned for that customer.

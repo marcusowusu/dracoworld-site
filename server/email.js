@@ -1,41 +1,13 @@
-import nodemailer from "nodemailer";
+const resendEndpoint = "https://api.resend.com/emails";
+const requestTimeoutMs = 10_000;
 
-const requiredSmtpSettings = [
-  "SMTP_HOST",
-  "SMTP_PORT",
-  "SMTP_FROM",
-];
-const smtpPort = Number(process.env.SMTP_PORT || "");
-const smtpSecure = process.env.SMTP_SECURE || "false";
-export function smtpTransportTlsOptions(port, implicitTls) {
-  return {
-    port,
-    secure: implicitTls,
-    requireTLS: !implicitTls,
-  };
+function isResendConfigured() {
+  return Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
 }
-
-export const smtpConfigured = requiredSmtpSettings.every((name) => Boolean(process.env[name]))
-  && Boolean(process.env.SMTP_USER)
-  && Boolean(process.env.SMTP_PASS)
-  && Number.isInteger(smtpPort)
-  && smtpPort >= 1
-  && smtpPort <= 65535
-  && ["true", "false"].includes(smtpSecure);
-const transporter = smtpConfigured
-  ? nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    ...smtpTransportTlsOptions(smtpPort, smtpSecure === "true"),
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  })
-  : null;
 
 export class EmailNotConfiguredError extends Error {
   constructor() {
-    super("Email delivery is not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, and SMTP_FROM.");
+    super("Email delivery is not configured. Set RESEND_API_KEY and EMAIL_FROM.");
     this.name = "EmailNotConfiguredError";
   }
 }
@@ -48,7 +20,7 @@ export class EmailDeliveryError extends Error {
 }
 
 export function requireEmailConfiguration() {
-  if (!transporter) {
+  if (!isResendConfigured()) {
     throw new EmailNotConfiguredError();
   }
 }
@@ -64,19 +36,35 @@ function escapeHtml(value) {
 }
 
 export async function sendAccountEmail({ to, subject, text, html }) {
-  if (!transporter) {
-    throw new EmailNotConfiguredError();
-  }
+  requireEmailConfiguration();
+
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to,
-      subject,
-      text,
-      html,
+    const response = await fetch(resendEndpoint, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: process.env.EMAIL_FROM,
+        to: [to],
+        subject,
+        text,
+        html,
+      }),
+      signal: AbortSignal.timeout(requestTimeoutMs),
     });
+
+    if (!response.ok) {
+      throw new Error("Email provider returned an unsuccessful status.");
+    }
+
+    const result = await response.json();
+    if (!result || typeof result.id !== "string" || !result.id.trim()) {
+      throw new Error("Email provider returned an invalid response.");
+    }
   } catch (error) {
-    console.error("Email delivery failed:", error.message);
+    console.error("Email delivery failed.");
     throw new EmailDeliveryError();
   }
 }
