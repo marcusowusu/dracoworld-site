@@ -29,6 +29,7 @@
       href="assets/sweatshirt.png"
       fetchpriority="high"
     >
+    <script src="intro.js?v=3"></script>
     <style>
       :root {
         --ink: #1A1A1A;
@@ -232,11 +233,37 @@
         .hero-bottomline span:last-child { display: inline; }
       }
     </style>
-    <link rel="stylesheet" href="styles.v1.css?v=20">
+    <link rel="stylesheet" href="styles.v1.css?v=22">
     <script src="script.js?v=5" defer></script>
     <script src="account.js?v=1" defer></script>
   </head>
   <body>
+    <section class="cinematic-intro" role="dialog" aria-modal="true" aria-labelledby="intro-title" aria-hidden="true">
+      <img class="intro-image intro-image-primary" src="TOD.jpeg" alt="" width="810" height="1080">
+      <img class="intro-image intro-image-secondary" src="DELA.jpeg" alt="" width="498" height="1080">
+      <div class="intro-atmosphere" aria-hidden="true"></div>
+      <div class="intro-grain" aria-hidden="true"></div>
+      <div class="intro-topline">
+        <a class="intro-brand" href="#top" tabindex="-1" aria-label="DRACOWORLD home">
+          <img src="assets/dracoworld-logo.v1.png" alt="" width="44" height="36">
+          <span>DRACOWORLD</span>
+        </a>
+        <button class="intro-skip" type="button">SKIP INTRO <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="intro-center">
+        <p class="intro-kicker"><span></span> A NEW POINT OF VIEW</p>
+        <h1 class="intro-title" id="intro-title"><span>DRACO</span><span>WORLD</span></h1>
+        <p class="intro-statement">BEYOND THE ORDINARY.</p>
+        <p class="intro-substatement">BUILT FOR THOSE WHO STAND APART.</p>
+        <button class="intro-continue" type="button">ENTER STORE <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="intro-footer" aria-hidden="true">
+        <span>EST. FOR WHAT’S NEXT</span>
+        <span>01 — 01</span>
+      </div>
+      <div class="intro-progress" aria-hidden="true"><span></span></div>
+    </section>
+
     <header class="site-header">
       <a class="brand" href="#top" aria-label="DRACOWORLD home">
         <img class="navbar-logo" src="assets/dracoworld-logo.v1.png" alt="" width="409" height="335">
